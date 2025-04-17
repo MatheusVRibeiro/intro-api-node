@@ -6,7 +6,7 @@ module.exports = {
 
       const sql = `
           SELECT 
-            ap_id, bloco_id, ap_numero, ap_andar
+            ap_id, bloc_id, ap_numero, ap_andar
             FROM Apartamentos 
         `;
 
@@ -29,6 +29,25 @@ module.exports = {
   },
   async cadastrarApartamentos(request, response) {
     try {
+
+      const { bloc, numero, andar } = request.body;
+      const ap_ativo = 1;
+      
+      const sql = `
+        INSERT INTO Apartamentos (bloc_id, ap_numero, ap_andar) 
+        VALUES (?, ?, ?)
+      `;
+
+      const values = [bloc, numero, andar];
+
+      const [result] = await db.query(sql, values);
+
+      const dados = {
+        id: result.insertId,
+        bloc,
+        numero,
+        andar,
+      };
       return response.status(200).json({
         sucesso: true,
         message: "Cadastro de apartamentos",
