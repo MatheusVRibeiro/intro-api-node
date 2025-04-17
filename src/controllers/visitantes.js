@@ -3,6 +3,13 @@ const db = require("../database/connection");
 module.exports = {
   async listarVisitantes(request, response) {
     try {
+
+      const sql = `
+      SELECT 
+        vst_id, vst_nome, vst_documento, AP_id, vst_data_visita
+      FROM Visitantes 
+    `;
+
       return response.status(200).json({
         sucesso: true,
         message: "Lista de visitantes",
