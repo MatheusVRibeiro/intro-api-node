@@ -34,8 +34,9 @@ module.exports = {
       const ap_ativo = 1;
       
       const sql = `
-        INSERT INTO Apartamentos (bloc_id, ap_numero, ap_andar) 
-        VALUES (?, ?, ?)
+        INSERT INTO Apartamentos (bloc_id, ap_numero, ap_andar)
+        VALUES (?, ?, ?);
+
       `;
 
       const values = [bloc, numero, andar];
@@ -51,7 +52,7 @@ module.exports = {
       return response.status(200).json({
         sucesso: true,
         message: "Cadastro de apartamentos",
-        dados: null,
+        dados
       });
     } catch (error) {
       return response.status(500).json({

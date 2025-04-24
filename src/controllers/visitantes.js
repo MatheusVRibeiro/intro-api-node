@@ -25,10 +25,30 @@ module.exports = {
   },
   async cadastrarVisitantes(request, response) {
     try {
+
+      const { nome, documento, ap_id, data_visita } = request.body;
+
+      const sql = `
+        INSERT INTO Visitantes (vst_nome, vst_documento, AP_id, vst_data_visita)
+        VALUES (?, ?, ?, ?)
+        `;
+
+
+        const values = [nome, documento, ap_id, data_visita];
+
+        const [result] = await db.query(sql, values);
+
+        const dados = {
+          id: result.insertId,
+          nome,
+          documento,
+          ap_id,
+          data_visita,
+        };
       return response.status(200).json({
         sucesso: true,
         message: "Cadastro de visitantes",
-        dados: null,
+        dados
       });
     } catch (error) {
       return response.status(500).json({
