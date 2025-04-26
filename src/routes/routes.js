@@ -11,7 +11,7 @@ router.get('/apartamentos', apartamentoController.listarApartamentos);
 
 router.post('/apartamentos', apartamentoController.cadastrarApartamentos);
 
-router.patch('/apartamentos', apartamentoController.editarApartamentos);
+router.patch('/apartamentos/:id', apartamentoController.editarApartamentos);
 
 router.delete('/apartamentos', apartamentoController.apagarApartamentos);
 
@@ -21,7 +21,7 @@ router.get('/visitantes', visitantesController.listarVisitantes);
 
 router.post('/visitantes', visitantesController.cadastrarVisitantes);
 
-router.patch('/visitantes', visitantesController.editarVisitantes);
+router.patch('/visitantes/:id', visitantesController.editarVisitantes);
 
 router.delete('/visitantes', visitantesController.apagarVisitantes);
 

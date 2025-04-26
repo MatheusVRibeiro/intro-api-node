@@ -29,7 +29,6 @@ module.exports = {
   },
   async cadastrarApartamentos(request, response) {
     try {
-
       const { bloc, numero, andar } = request.body;
       const ap_ativo = 1;
       
@@ -64,10 +63,29 @@ module.exports = {
   },
   async editarApartamentos(request, response) {
     try {
-      return response.status(200).json({
+
+        const { bloc, numero, andar } = request.body;
+        const { id } = request.params;
+
+        const sql = `
+        UPDATE Apartamentos
+        SET bloc_id = ?, ap_numero = ?, ap_andar = ?
+        WHERE ap_id = ?;
+        `;
+        const values = [bloc, numero, andar, id];
+        const atualizaDados = await db.query(sql, values);
+        
+        const dados = {
+          id,
+          bloc,
+          numero,
+          andar,
+        };
+    
+        return response.status(200).json({
         sucesso: true,
-        message: "Editar apartamentos",
-        dados: null,
+        message: `Usuário [${id}] atualizado com sucesso!`, // Editar apartamentos",
+        dados: atualizaDados[0].affectedRows,
       });
     } catch (error) {
       return response.status(500).json({
