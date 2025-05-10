@@ -60,10 +60,41 @@ module.exports = {
   },
   async editarVisitantes(request, response) {
     try {
+
+      const { nome, documento, ap_id, data_visita } = request.body;
+      const { id } = request.params;
+
+      const sql = `
+      UPDATE Visitantes
+      SET vst_nome = ?, vst_documento = ?, AP_id = ?, vst_data_visita = ?
+      WHERE vst_id = ?;
+      `;
+
+
+      const values = [nome, documento, ap_id, data_visita, id];
+      const [result] = await db.query(sql, values);
+      
+      const atualizaDados = await db.query(sql, values);
+
+      const dados = {
+        id,
+        nome,
+        documento,
+        ap_id,
+        data_visita,
+      };
+
+      if (result.affectedRows === 0) {
+        return response.status(404).json({
+          sucesso: false,
+          message: `Visitante ${id} não encontrado!`,
+          dados: null,
+        });
+      }
       return response.status(200).json({
         sucesso: true,
-        message: "Editar visitantes",
-        dados: null,
+        message: `Visitante [${id}] atualizado com sucesso!`, 
+        dados: atualizaDados[0].affectedRows,
       });
   } catch (error) {
       return response.status(500).json({
@@ -75,9 +106,27 @@ module.exports = {
   },
   async apagarVisitantes(request, response) {
     try {
+
+      const { id } = request.params;
+
+      const sql = `
+      DELETE FROM Visitantes
+      WHERE vst_id = ?;
+      `;
+      const values = [id];
+      const [result] = await db.query(sql, values);
+
+      if (result.affectedRows === 0) {
+        return response.status(404).json({
+          sucesso: false,
+          message: `Visitante ${id} não encontrado!`,
+          dados: null,
+        });
+      }
+
       return response.status(200).json({
         sucesso: true,
-        message: "Apagar visitantes",
+        message: `Visitante ${id} removido com sucesso!`, 
         dados: null,
       });
   } catch (error) {

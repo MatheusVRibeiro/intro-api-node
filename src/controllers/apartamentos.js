@@ -82,6 +82,14 @@ module.exports = {
           andar,
         };
     
+        if (result.affectedRows === 0) {
+          return response.status(404).json({
+            sucesso: false,
+            message: `Apartamentos [${id}] não encontrado!`,
+            dados: null,
+          });
+        }
+
         return response.status(200).json({
         sucesso: true,
         message: `Usuário [${id}] atualizado com sucesso!`, // Editar apartamentos",
@@ -97,11 +105,30 @@ module.exports = {
   },
   async apagarApartamentos(request, response) {
     try {
+
+      const { id } = request.params;
+
+      const sql = `
+      DELETE FROM Apartamentos
+      WHERE ap_id = ?;
+      `;
+      const values = [id];
+      const [result] = await db.query(sql, values);
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          sucesso: false,
+          message: `Apartamento ${id} não encontrado!`,
+          dados: null,
+        });
+      }
+
       return response.status(200).json({
         sucesso: true,
-        message: "Apagar apartamentos",
+        message: `Apartamento ${id} removido com sucesso!`,
         dados: null,
       });
+
     } catch (error) {
       return response.status(500).json({
         sucesso: false,

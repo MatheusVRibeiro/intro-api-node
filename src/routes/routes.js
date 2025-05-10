@@ -13,7 +13,7 @@ router.post('/apartamentos', apartamentoController.cadastrarApartamentos);
 
 router.patch('/apartamentos/:id', apartamentoController.editarApartamentos);
 
-router.delete('/apartamentos', apartamentoController.apagarApartamentos);
+router.delete('/apartamentos/:id', apartamentoController.apagarApartamentos);
 
 // ROTAS AMBIENTES 
 
@@ -23,6 +23,6 @@ router.post('/visitantes', visitantesController.cadastrarVisitantes);
 
 router.patch('/visitantes/:id', visitantesController.editarVisitantes);
 
-router.delete('/visitantes', visitantesController.apagarVisitantes);
+router.delete('/visitantes/:id', visitantesController.apagarVisitantes);
 
 module.exports = router;
