@@ -73,6 +73,8 @@ module.exports = {
         WHERE ap_id = ?;
         `;
         const values = [bloc, numero, andar, id];
+        const [result] = await db.query(sql, values);
+
         const atualizaDados = await db.query(sql, values);
         
         const dados = {
@@ -85,7 +87,7 @@ module.exports = {
         if (result.affectedRows === 0) {
           return response.status(404).json({
             sucesso: false,
-            message: `Apartamentos [${id}] não encontrado!`,
+            message: `Apartamentos ${id} não encontrado!`,
             dados: null,
           });
         }
@@ -93,7 +95,7 @@ module.exports = {
         return response.status(200).json({
         sucesso: true,
         message: `Usuário [${id}] atualizado com sucesso!`, // Editar apartamentos",
-        dados: atualizaDados[0].affectedRows,
+        dados
       });
     } catch (error) {
       return response.status(500).json({

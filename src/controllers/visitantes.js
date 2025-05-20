@@ -7,13 +7,17 @@ module.exports = {
       const sql = `
       SELECT 
         vst_id, vst_nome, vst_documento, AP_id, vst_data_visita
-      FROM Visitantes 
+        FROM Visitantes 
     `;
+
+      const [row] = await db.query(sql);
+      const nItens = row.length;
 
       return response.status(200).json({
         sucesso: true,
         message: "Lista de visitantes",
-        dados: null,
+        nItens,
+        dados: row,
       });
   } catch (error) {
       return response.status(500).json({
@@ -93,8 +97,8 @@ module.exports = {
       }
       return response.status(200).json({
         sucesso: true,
-        message: `Visitante [${id}] atualizado com sucesso!`, 
-        dados: atualizaDados[0].affectedRows,
+        message: `Visitante ${id} atualizado com sucesso!`, 
+        dados
       });
   } catch (error) {
       return response.status(500).json({
